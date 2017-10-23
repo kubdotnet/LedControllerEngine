@@ -21,5 +21,6 @@ namespace LedControllerEngine.ViewModel
         bool IsSettingsOpen { get; set; }
         ICommand SettingsToggleCommand { get; set; }
         Settings ApplicationSettings { get; set; }
+        ICommand TransferStageToLiveCommand { get; set; }
     }
 }

@@ -75,5 +75,6 @@ namespace LedControllerEngine.ViewModel
 
         public ICommand SettingsToggleCommand { get; set; }
         public Settings ApplicationSettings { get; set; }
+        public ICommand TransferStageToLiveCommand { get; set; }
     }
 }

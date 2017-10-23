@@ -38,16 +38,32 @@ namespace LedControllerEngine.Arduino
         {
             IEnumerable<string> commands = BuildCommands(settings, devices, mode);
 
-            if (!serialPortChannel.IsOpen)
-            {
-                serialPortChannel.Open();
-            }
+            EnsureSerialPortOpened();
 
             foreach (var command in commands)
             {
                 serialPortChannel.Write(command);
             }
             serialPortChannel.WriteLine("");
+        }
+
+        /// <summary>
+        /// Sends the command.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        public void SendCommand(string command)
+        {
+            EnsureSerialPortOpened();
+            serialPortChannel.Write(command);
+            serialPortChannel.WriteLine("");
+        }
+
+        private void EnsureSerialPortOpened()
+        {
+            if (!serialPortChannel.IsOpen)
+            {
+                serialPortChannel.Open();
+            }
         }
 
         /// <summary>

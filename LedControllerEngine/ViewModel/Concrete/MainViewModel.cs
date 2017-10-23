@@ -165,6 +165,7 @@ namespace LedControllerEngine.ViewModel
         public ICommand StripeToggleCommand { get; set; }
         public ICommand SendEffectCommand { get; set; }
         public ICommand SettingsToggleCommand { get; set; }
+        public ICommand TransferStageToLiveCommand { get; set; }
 
         #endregion
 
@@ -195,6 +196,10 @@ namespace LedControllerEngine.ViewModel
 
             SettingsToggleCommand = new RelayCommand(
                 () => IsSettingsOpen = !IsSettingsOpen
+            );
+
+            TransferStageToLiveCommand = new RelayCommand(
+                () => _interop.SendCommand("<")
             );
         }
 

@@ -22,7 +22,7 @@
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="{iconPacks:PackIconMaterial Kind=RadioTower}" ToolTip="Apply Stage to Live" />
+            <Button Content="{iconPacks:PackIconMaterial Kind=RadioTower}" ToolTip="Transfer Stage to Live" Command="{Binding TransferStageToLiveCommand}" />
             <Button Content="{iconPacks:PackIconMaterial Kind=Settings}" ToolTip="Settings" Command="{Binding SettingsToggleCommand}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
