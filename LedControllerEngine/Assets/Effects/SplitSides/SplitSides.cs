@@ -22,7 +22,7 @@ namespace LedControllerEngine.Assets.Effects
             }
             set
             {
-                if (!(value is SingleSpinnerSettingsModel))
+                if (!(value is SplitSidesSettingsModel))
                 {
                     throw new ArgumentException("Wrong type, SplitSidesSettingsModel expected");
                 }
