@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="LedControllerEngine.Assets.Effects.SplitQuartersSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LedControllerEngine.Assets.Effects"
+             xmlns:ColorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Pulse rate" />
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding PulseSpeed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="North West HUE" Grid.Row="1" />
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding NorthWestHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Border Grid.Column="1" Grid.Row="1" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+            <ColorPicker:SpectrumSlider Value="{Binding NorthWestHue}" Margin="0" />
+        </Border>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="North East HUE" Grid.Row="2"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding NorthEastHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Border Grid.Column="1" Grid.Row="2" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+            <ColorPicker:SpectrumSlider Value="{Binding NorthEastHue}" Margin="0" />
+        </Border>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="South East HUE" Grid.Row="3" />
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding SouthEastHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Border Grid.Column="1" Grid.Row="3" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+            <ColorPicker:SpectrumSlider Value="{Binding SouthEastHue}" Margin="0" />
+        </Border>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="South West HUE" Grid.Row="4" />
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding SouthWestHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Border Grid.Column="1" Grid.Row="4" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+            <ColorPicker:SpectrumSlider Value="{Binding SouthWestHue}" Margin="0" />
+        </Border>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Side phase offset" Grid.Row="5" />
+        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding SidePhaseOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Pulse" Grid.Row="6" />
+        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" Grid.Row="6" Width="136" ItemsSource="{Binding PulseOptions}" SelectedItem="{Binding Pulse, Mode=TwoWay}" DisplayMemberPath="Value" SelectedValuePath="Key"/>
+
+    </Grid>
+</UserControl>
