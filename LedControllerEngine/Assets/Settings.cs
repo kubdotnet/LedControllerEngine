@@ -59,6 +59,22 @@ namespace LedControllerEngine.Assets
             }
         }
 
+        private int _stripes;
+        [JsonProperty("stripes")]
+
+        public int StripesCount
+        {
+            get
+            {
+                return _stripes;
+            }
+            set
+            {
+                _stripes = value;
+                RaisePropertyChanged(() => StripesCount);
+            }
+        }
+
         private List<IEffect> _effects = new List<IEffect>();
         [JsonProperty("effects")]
         [JsonConverter(typeof(Converters.EffectsSettingsConverter))]

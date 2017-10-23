@@ -32,11 +32,11 @@ namespace LedControllerEngine.Arduino
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
         /// <param name="settings">The settings.</param>
-        /// <param name="fans">The fans.</param>
+        /// <param name="devices">The devices.</param>
         /// <param name="mode">The mode.</param>
-        public void SendSettings(IEnumerable<EffectSetting> settings, IEnumerable<int> fans, TransferMode mode)
+        public void SendSettings(IEnumerable<EffectSetting> settings, IEnumerable<int> devices, TransferMode mode)
         {
-            IEnumerable<string> commands = BuildCommands(settings, fans, mode);
+            IEnumerable<string> commands = BuildCommands(settings, devices, mode);
 
             if (!serialPortChannel.IsOpen)
             {
@@ -48,7 +48,6 @@ namespace LedControllerEngine.Arduino
                 serialPortChannel.Write(command);
             }
             serialPortChannel.WriteLine("");
-            //serialPortChannel.Close();
         }
 
         /// <summary>
@@ -56,10 +55,10 @@ namespace LedControllerEngine.Arduino
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
         /// <param name="settings">The settings.</param>
-        /// <param name="fans">The fans.</param>
+        /// <param name="devices">The devices.</param>
         /// <param name="mode">The mode.</param>
         /// <returns></returns>
-        private IEnumerable<string> BuildCommands(IEnumerable<EffectSetting> settings, IEnumerable<int> fans, TransferMode mode)
+        private IEnumerable<string> BuildCommands(IEnumerable<EffectSetting> settings, IEnumerable<int> devices, TransferMode mode)
         {
             string commandSymbol = (mode == TransferMode.Live)
                 ? ">"
@@ -68,9 +67,9 @@ namespace LedControllerEngine.Arduino
             var commandPattern = string.Join(",", settings.Select(s => $"{commandSymbol}" + "{0}." + $"{s.Code}.{s.Value}"));
 
             List<string> commands = new List<string>();
-            foreach (var fan in fans)
+            foreach (var device in devices)
             {
-                commands.Add(string.Format(commandPattern, fan));
+                commands.Add(string.Format(commandPattern, device));
             }
 
             return commands;

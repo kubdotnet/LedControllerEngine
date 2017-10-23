@@ -12,8 +12,10 @@ namespace LedControllerEngine.ViewModel
         string Title { get; }
         IEnumerable<IEffect> Effects { get; }
         IEffect SelectedEffect { get; set; }
-        ObservableCollection<Fan> Fans { get; set; }
+        ObservableCollection<LedDevice> Fans { get; set; }
+        ObservableCollection<LedDevice> Stripes { get; set; }
         ICommand FanToggleCommand { get; set; }
+        ICommand StripeToggleCommand { get; set; }
         TransferMode EffectMode { get; set; }
         UserControl ConfigurationUI { get; set; }
         bool IsSettingsOpen { get; set; }

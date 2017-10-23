@@ -2,19 +2,19 @@
 
 namespace LedControllerEngine.Assets
 {
-    public class Fan : ObservableObject
+    public class LedDevice : ObservableObject
     {
-        private int _fanIndex;
-        public int FanIndex
+        private int _index;
+        public int Index
         {
             get
             {
-                return _fanIndex;
+                return _index;
             }
             internal set
             {
-                _fanIndex = value;
-                RaisePropertyChanged(() => FanIndex);
+                _index = value;
+                RaisePropertyChanged(() => Index);
             }
         }
 

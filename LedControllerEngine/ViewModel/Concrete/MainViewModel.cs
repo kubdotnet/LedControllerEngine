@@ -68,8 +68,8 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
-        private ObservableCollection<Fan> _fans;
-        public ObservableCollection<Fan> Fans
+        private ObservableCollection<LedDevice> _fans;
+        public ObservableCollection<LedDevice> Fans
         {
             get
             {
@@ -79,6 +79,20 @@ namespace LedControllerEngine.ViewModel
             {
                 _fans = value;
                 RaisePropertyChanged(() => Fans);
+            }
+        }
+
+        private ObservableCollection<LedDevice> _stripes;
+        public ObservableCollection<LedDevice> Stripes
+        {
+            get
+            {
+                return _stripes;
+            }
+            set
+            {
+                _stripes = value;
+                RaisePropertyChanged(() => Stripes);
             }
         }
 
@@ -148,6 +162,7 @@ namespace LedControllerEngine.ViewModel
         #region commands
 
         public ICommand FanToggleCommand { get; set; }
+        public ICommand StripeToggleCommand { get; set; }
         public ICommand SendEffectCommand { get; set; }
         public ICommand SettingsToggleCommand { get; set; }
 
@@ -161,11 +176,16 @@ namespace LedControllerEngine.ViewModel
             Title = GetAssemblyTitle();
             Effects = GetAvailableEffects();
             Fans = GetAvailableFans();
+            Stripes = GetAvailableStripes();
             EffectMode = TransferMode.Stage;
 
             // event handlers
-            FanToggleCommand = new RelayCommand<Fan>(
-               fan => ToggleFanSelection(fan)
+            FanToggleCommand = new RelayCommand<LedDevice>(
+               fan => ToggleDeviceSelection(fan)
+            );
+
+            StripeToggleCommand = new RelayCommand<LedDevice>(
+               stripe => ToggleDeviceSelection(stripe)
             );
 
             SendEffectCommand = new RelayCommand(
@@ -192,6 +212,9 @@ namespace LedControllerEngine.ViewModel
                     break;
                 case "FansCount":
                     Fans = GetAvailableFans();
+                    break;
+                case "StripesCount":
+                    Stripes = GetAvailableStripes();
                     break;
             }
         }
@@ -261,25 +284,37 @@ namespace LedControllerEngine.ViewModel
         /// Gets the available fans.
         /// </summary>
         /// <returns></returns>
-        private ObservableCollection<Fan> GetAvailableFans()
+        private ObservableCollection<LedDevice> GetAvailableFans()
         {
-            return new ObservableCollection<Fan>(
-                Enumerable.Range(1, ApplicationSettings.FansCount).Select(i => new Fan()
+            return new ObservableCollection<LedDevice>(
+                Enumerable.Range(1, ApplicationSettings.FansCount).Select(i => new LedDevice()
                 {
-                    FanIndex = i,
+                    Index = i,
                     Description = $"Fan {i}",
                     IsSelected = false
                 })
             );
         }
 
-        /// <summary>
-        /// Toggles the fan selection.
-        /// </summary>
-        /// <param name="fan">The fan.</param>
-        private void ToggleFanSelection(Fan fan)
+        private ObservableCollection<LedDevice> GetAvailableStripes()
         {
-            fan.IsSelected = !fan.IsSelected;
+            return new ObservableCollection<LedDevice>(
+                Enumerable.Range(7, ApplicationSettings.StripesCount).Select(i => new LedDevice()
+                {
+                    Index = i,
+                    Description = $"Stripe {i}",
+                    IsSelected = false
+                })
+            );
+        }
+
+        /// <summary>
+        /// Toggles the device selection.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        private void ToggleDeviceSelection(LedDevice device)
+        {
+            device.IsSelected = !device.IsSelected;
         }
 
         /// <summary>
@@ -291,6 +326,7 @@ namespace LedControllerEngine.ViewModel
         private bool CanSendSettings()
         {
             return Fans.Where(f => f.IsSelected).Count() > 0
+                || Stripes.Where(s => s.IsSelected).Count() > 0
                 && SelectedEffect != null;
         }
 
@@ -304,9 +340,9 @@ namespace LedControllerEngine.ViewModel
                 _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
             }
 
-            _interop.SendSettings(SelectedEffect.GetSettingsValues(),
-                Fans.Where(f => f.IsSelected).Select(f => f.FanIndex),
-                EffectMode);
+            var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
+            var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
+            _interop.SendSettings(SelectedEffect.GetSettingsValues(), fans.Concat(stripes), EffectMode);
 
             // save current effect settings
             var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => SelectedEffect.Id == e.Id);

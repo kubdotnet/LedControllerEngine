@@ -28,11 +28,11 @@ namespace LedControllerEngine.ViewModel
 
         public IEffect SelectedEffect { get; set; }
 
-        public ObservableCollection<Fan> Fans
+        public ObservableCollection<LedDevice> Fans
         {
-            get => new ObservableCollection<Fan>(
-                Enumerable.Range(1, 6).Select(i => new Fan() {
-                    FanIndex = i,
+            get => new ObservableCollection<LedDevice>(
+                Enumerable.Range(1, 6).Select(i => new LedDevice() {
+                    Index = i,
                     Description = $"Fan {i}",
                     IsSelected = (i % 2) == 0
                 })
@@ -40,7 +40,21 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
 
+        public ObservableCollection<LedDevice> Stripes
+        {
+            get => new ObservableCollection<LedDevice>(
+                Enumerable.Range(7, 4).Select(i => new LedDevice()
+                {
+                    Index = i,
+                    Description = $"Stripe {i}",
+                    IsSelected = (i % 2) == 0
+                })
+            );
+            set { }
+        }
+
         public ICommand FanToggleCommand { get; set; }
+        public ICommand StripeToggleCommand { get; set; }
         public TransferMode EffectMode
         {
             get => TransferMode.Live;
