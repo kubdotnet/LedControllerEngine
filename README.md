@@ -8,3 +8,9 @@ Most of the features available on the HD120-Controller firmware can be visually 
 
 ## Tests
 Test are missing, they must be added soon :).
+
+## Changelog
+
+2017-10-23
+* Added stripes
+* Add Transfer Stage to Live feature
