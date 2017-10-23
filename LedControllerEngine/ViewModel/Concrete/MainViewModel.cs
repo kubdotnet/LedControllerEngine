@@ -199,7 +199,10 @@ namespace LedControllerEngine.ViewModel
             );
 
             TransferStageToLiveCommand = new RelayCommand(
-                () => _interop.SendCommand("<")
+                () => {
+                    EnsureInteropInitialized();
+                    _interop.SendCommand("<");
+                }
             );
         }
 
@@ -340,10 +343,7 @@ namespace LedControllerEngine.ViewModel
         /// </summary>
         private void SendEffectSettings()
         {
-            if (_interop == null)
-            {
-                _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
-            }
+            EnsureInteropInitialized();
 
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
             var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
@@ -390,6 +390,17 @@ namespace LedControllerEngine.ViewModel
             }
 
             ApplicationSettings.Save(_settingsPath);
+        }
+
+        /// <summary>
+        /// Ensures the interop is initialized.
+        /// </summary>
+        private void EnsureInteropInitialized()
+        {
+            if (_interop == null)
+            {
+                _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
+            }
         }
     }
 }
