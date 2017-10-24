@@ -166,6 +166,8 @@ namespace LedControllerEngine.ViewModel
         public ICommand SendEffectCommand { get; set; }
         public ICommand SettingsToggleCommand { get; set; }
         public ICommand TransferStageToLiveCommand { get; set; }
+        public ICommand LoadMemoryToLiveCommand { get; set; }
+        public ICommand SaveLiveToMemoryCommand { get; set; }
 
         #endregion
 
@@ -178,7 +180,7 @@ namespace LedControllerEngine.ViewModel
             Effects = GetAvailableEffects();
             Fans = GetAvailableFans();
             Stripes = GetAvailableStripes();
-            EffectMode = TransferMode.Stage;
+            EffectMode = TransferMode.Live;
 
             // event handlers
             FanToggleCommand = new RelayCommand<LedDevice>(
@@ -202,6 +204,20 @@ namespace LedControllerEngine.ViewModel
                 () => {
                     EnsureInteropInitialized();
                     _interop.SendCommand("<");
+                }
+            );
+
+            SaveLiveToMemoryCommand = new RelayCommand(
+                () => {
+                    EnsureInteropInitialized();
+                    _interop.SendCommand("!");
+                }
+            );
+
+            LoadMemoryToLiveCommand = new RelayCommand(
+                () => {
+                    EnsureInteropInitialized();
+                    _interop.SendCommand("$");
                 }
             );
         }

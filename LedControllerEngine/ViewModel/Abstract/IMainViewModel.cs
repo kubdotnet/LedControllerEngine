@@ -22,5 +22,7 @@ namespace LedControllerEngine.ViewModel
         ICommand SettingsToggleCommand { get; set; }
         Settings ApplicationSettings { get; set; }
         ICommand TransferStageToLiveCommand { get; set; }
+        ICommand LoadMemoryToLiveCommand { get; set; }
+        ICommand SaveLiveToMemoryCommand { get; set; }
     }
 }
