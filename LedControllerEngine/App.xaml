@@ -22,6 +22,7 @@
             </Style>
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="local:SelectTextOnFocus.Active"  Value="True" />
             </Style>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:LedControllerEngine.ViewModel" />
             <conv:EnumToBooleanConverter x:Key="EnumConverter" />

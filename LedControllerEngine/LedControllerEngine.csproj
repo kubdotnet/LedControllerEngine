@@ -137,6 +137,7 @@
     <Compile Include="Assets\Settings.cs" />
     <Compile Include="Converters\EffectsSettingsConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Decorators\SelectTextOnFocus.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="ViewModel\Abstract\IMainViewModel.cs" />
     <Compile Include="ViewModel\Concrete\MainViewModel.cs" />
