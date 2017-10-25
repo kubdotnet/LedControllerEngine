@@ -33,12 +33,22 @@ namespace LedControllerEngine.ViewModel
             }
         }
         
+        public ILogging Logging
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ILogging>();
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            SimpleIoc.Default.Register<ILogging, NLogging>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -52,8 +62,6 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
-
-        
         public static void Cleanup()
         {
             

@@ -17,6 +17,7 @@ namespace LedControllerEngine.ViewModel
     {
         #region fields
 
+        ILogging _logging;
         private Arduino.LedInterop _interop;
         private string _settingsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LedControllerEngine\settings.json");
 
@@ -171,8 +172,10 @@ namespace LedControllerEngine.ViewModel
 
         #endregion
 
-        public MainViewModel()
+        public MainViewModel(ILogging logging)
         {
+            _logging = logging;
+
             ApplicationSettings = GetApplicationSettings();
             ApplicationSettings.PropertyChanged += ApplicationSettings_PropertyChanged;
 
@@ -197,11 +200,15 @@ namespace LedControllerEngine.ViewModel
             );
 
             SettingsToggleCommand = new RelayCommand(
-                () => IsSettingsOpen = !IsSettingsOpen
+                () => {
+                    _logging.Info("Settings " + (IsSettingsOpen ? "closing" : "opening"));
+                    IsSettingsOpen = !IsSettingsOpen;
+                }
             );
 
             TransferStageToLiveCommand = new RelayCommand(
                 () => {
+                    _logging.Info("Sending command <");
                     EnsureInteropInitialized();
                     _interop.SendCommand("<");
                 }
@@ -209,6 +216,7 @@ namespace LedControllerEngine.ViewModel
 
             SaveLiveToMemoryCommand = new RelayCommand(
                 () => {
+                    _logging.Info("Sending command !");
                     EnsureInteropInitialized();
                     _interop.SendCommand("!");
                 }
@@ -216,6 +224,7 @@ namespace LedControllerEngine.ViewModel
 
             LoadMemoryToLiveCommand = new RelayCommand(
                 () => {
+                    _logging.Info("Sending command $");
                     EnsureInteropInitialized();
                     _interop.SendCommand("$");
                 }
@@ -248,30 +257,31 @@ namespace LedControllerEngine.ViewModel
             var portList = System.IO.Ports.SerialPort.GetPortNames().ToList();
             var rateList = new List<int> { 4800, 9600, 19200, 38400, 57600, 115200, 230400 };
 
-            if (!System.IO.File.Exists(_settingsPath))
+            if (System.IO.File.Exists(_settingsPath))
             {
-                return new Settings()
+                try
                 {
-                    PortList = portList,
-                    Rate = 115200,
-                    RateList = rateList,
-                    FansCount = 6
-                };
+                    _logging.Info("Loading settings from file");
+
+                    // load settings from file
+                    var _settings = Settings.LoadFromFile(_settingsPath);
+                    _settings.PortList = portList;
+                    _settings.RateList = rateList;
+                    return _settings;
+                }
+                catch (Exception ex)
+                {
+                    _logging.Fatal(ex);
+                }
             }
 
-            // load settings from file
-            var _settings = Settings.LoadFromFile(_settingsPath);
-            _settings.PortList = portList;
-            _settings.RateList = rateList;
-            return _settings;
-        }
-
-        private Settings GetDefaultSettings()
-        {
+            _logging.Info("Sets default settings");
             return new Settings()
             {
-                PortList = System.IO.Ports.SerialPort.GetPortNames().ToList(),
-                RateList = new List<int> { 4800, 9600, 19200, 38400, 57600, 115200, 230400 }
+                PortList = portList,
+                Rate = 115200,
+                RateList = rateList,
+                FansCount = 6
             };
         }
 
@@ -415,6 +425,7 @@ namespace LedControllerEngine.ViewModel
         {
             if (_interop == null)
             {
+                _logging.Info("Interop not initialized, initializing now");
                 _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
             }
         }
