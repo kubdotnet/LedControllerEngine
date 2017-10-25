@@ -275,7 +275,9 @@ namespace LedControllerEngine.ViewModel
                 }
             }
 
-            _logging.Info("Sets default settings");
+            _logging.Info("Sets default settings and open settings pane");
+
+            IsSettingsOpen = true;
             return new Settings()
             {
                 PortList = portList,
