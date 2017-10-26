@@ -26,6 +26,7 @@ namespace LedControllerEngine.ViewModel
         ObservableCollection<LedDevice> Fans { get; set; }
         UserControl FanConfigurationUI { get; set; }
         ICommand FanToggleCommand { get; set; }
+        int SelectedFansCount { get; }
 
         #endregion
 
@@ -36,6 +37,7 @@ namespace LedControllerEngine.ViewModel
         ObservableCollection<LedDevice> Stripes { get; set; }
         ICommand StripeToggleCommand { get; set; }
         UserControl StripeConfigurationUI { get; set; }
+        int SelectedStripesCount { get; }
 
         #endregion
     }

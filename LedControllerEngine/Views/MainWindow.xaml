@@ -39,23 +39,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <mahControls:MetroTabControl >
+        <mahControls:MetroTabControl Padding="5">
             <mahControls:MetroAnimatedTabControl>
                 <TabItem Header="Fans">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Effect" Margin="10,0"/>
-                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc">
+                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc" Margin="0, 0, 0, 20">
                             <ListBox Margin="10" ItemsSource="{Binding FanEffects}" SelectedItem="{Binding SelectedFanEffect}" ItemTemplate="{StaticResource EffectTemplate}" />
                         </Border>
                         <ContentControl Content="{Binding FanConfigurationUI}" Grid.Column="1" Margin="10" Grid.Row="1" ScrollViewer.CanContentScroll="True" />
@@ -104,16 +103,15 @@
                 <TabItem Header="Stripes">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="10"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Effect" Margin="10,0"/>
-                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc">
+                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc" Margin="0, 0, 0, 20">
                             <ListBox Margin="10" ItemsSource="{Binding StripeEffects}" SelectedItem="{Binding SelectedStripeEffect}" ItemTemplate="{StaticResource EffectTemplate}" />
                         </Border>
                         <ContentControl Content="{Binding StripeConfigurationUI}" Grid.Column="1" Margin="10" Grid.Row="1" />
@@ -161,8 +159,22 @@
                 </TabItem>
             </mahControls:MetroAnimatedTabControl>
         </mahControls:MetroTabControl>
-        <RadioButton Content="Live" Grid.Column="2" Margin="0,0,170,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Live}" HorizontalAlignment="Right" Width="45" Grid.Row="1" />
-        <RadioButton Content="Stage" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Stage}" Grid.Row="1" />
-        <Button Command="{Binding SendEffectCommand}" Content="Apply" Grid.Column="2" Margin="0,5,10,5" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="10" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} Fan(s) and {1} Stripe(s) selected">
+                        <Binding Path="SelectedFansCount" />
+                        <Binding Path="SelectedStripesCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <RadioButton Content="Live" Grid.Column="1" Margin="0,0,170,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Live}" HorizontalAlignment="Right" Width="45" Grid.Row="1" />
+            <RadioButton Content="Stage" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Stage}" Grid.Row="1" />
+            <Button Command="{Binding SendEffectCommand}" Content="Apply" Grid.Column="2" Margin="0,5,10,5" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5" />
+        </Grid>
     </Grid>
 </mahControls:MetroWindow>

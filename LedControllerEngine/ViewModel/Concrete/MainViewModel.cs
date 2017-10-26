@@ -146,6 +146,14 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
+        public int SelectedFansCount
+        {
+            get
+            {
+                return Fans.Where(f => f.IsSelected).Count();
+            }
+        }
+
         #endregion
 
         #region stripes
@@ -208,6 +216,14 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
+        public int SelectedStripesCount
+        {
+            get
+            {
+                return Stripes.Where(f => f.IsSelected).Count();
+            }
+        }
+
         #endregion
 
         #endregion
@@ -242,11 +258,19 @@ namespace LedControllerEngine.ViewModel
 
             // event handlers
             FanToggleCommand = new RelayCommand<LedDevice>(
-               fan => ToggleDeviceSelection(fan)
+               fan =>
+               {
+                   ToggleDeviceSelection(fan);
+                   RaisePropertyChanged(() => SelectedFansCount);
+               }
             );
 
             StripeToggleCommand = new RelayCommand<LedDevice>(
-               stripe => ToggleDeviceSelection(stripe)
+               stripe =>
+               {
+                   ToggleDeviceSelection(stripe);
+                   RaisePropertyChanged(() => SelectedStripesCount);
+               }
             );
 
             SendEffectCommand = new RelayCommand(

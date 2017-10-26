@@ -66,6 +66,7 @@ namespace LedControllerEngine.ViewModel
             get => new HueShiftSettings();
             set { }
         }
+        public int SelectedFansCount { get => 4; }
 
         public bool IsSettingsOpen
         {
@@ -94,5 +95,6 @@ namespace LedControllerEngine.ViewModel
             get => new BpmSettings();
             set { }
         }
+        public int SelectedStripesCount { get => 2; }
     }
 }
