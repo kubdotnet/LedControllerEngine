@@ -25,12 +25,12 @@
         <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding PulseSpeed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="West Side HUE" Grid.Row="1" />
         <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding WestHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Border Grid.Column="1" Grid.Row="1" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+        <Border Grid.Column="1" Grid.Row="1" Margin="118,5,0,5" Width="150" Padding="1" Background="#abadb3" HorizontalAlignment="Left">
             <ColorPicker:SpectrumSlider Value="{Binding WestHue}" Margin="0" />
         </Border>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="East Side HUE" Grid.Row="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding EastHue, UpdateSourceTrigger=PropertyChanged}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Border Grid.Column="1" Grid.Row="2" Margin="105,5,0,5" Width="150" Padding="1" Background="#abadb3">
+        <Border Grid.Column="1" Grid.Row="2" Margin="118,5,0,5" Width="150" Padding="1" Background="#abadb3" HorizontalAlignment="Left">
             <ColorPicker:SpectrumSlider Value="{Binding EastHue}" Margin="0" />
         </Border>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Fan phase offset" Grid.Row="3" />
