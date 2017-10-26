@@ -33,6 +33,8 @@ namespace LedControllerEngine.Assets.Effects
 
         public Type EffectType => typeof(HueShift);
 
+        public DeviceType Compatiblity { get => DeviceType.Fan | DeviceType.Stripe; }
+
         /// <summary>
         /// Gets the settings values.
         /// </summary>

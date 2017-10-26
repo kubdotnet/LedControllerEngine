@@ -33,6 +33,8 @@ namespace LedControllerEngine.Assets.Effects
 
         public Type EffectType => typeof(Rainbow);
 
+        public DeviceType Compatiblity { get => DeviceType.Fan; }
+
         /// <summary>
         /// Gets the settings values.
         /// </summary>

@@ -61,6 +61,15 @@ namespace LedControllerEngine.Assets
         object SettingsModel { get; set; }
 
         /// <summary>
+        /// Gets or sets the compatiblity.
+        /// </summary>
+        /// <value>
+        /// The compatiblity.
+        /// </value>
+        [JsonIgnore]
+        DeviceType Compatiblity { get; }
+
+        /// <summary>
         /// Gets the settings values.
         /// </summary>
         /// <returns>List of EffectSetting</returns>

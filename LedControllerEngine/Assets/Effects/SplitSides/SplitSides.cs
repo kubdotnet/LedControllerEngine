@@ -33,6 +33,8 @@ namespace LedControllerEngine.Assets.Effects
 
         public Type EffectType => typeof(SplitSides);
 
+        public DeviceType Compatiblity { get => DeviceType.Fan; }
+
         /// <summary>
         /// Gets the settings values.
         /// </summary>
