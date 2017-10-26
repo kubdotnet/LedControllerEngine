@@ -80,6 +80,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,55 +105,78 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Arduino\LedInterop.cs" />
-    <Compile Include="Assets\Effects\Bpm\Bpm.cs" />
-    <Compile Include="Assets\Effects\Bpm\BpmSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\Bpm\Bpm.cs" />
+    <Compile Include="Assets\Effects\Fans\Bpm\BpmSettings.xaml.cs">
       <DependentUpon>BpmSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\Bpm\BpmSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\Bpm\BpmSettingsModel.cs" />
     <Compile Include="Assets\Effects\DeviceType.cs" />
-    <Compile Include="Assets\Effects\DoubleScan\DoubleScan.cs" />
-    <Compile Include="Assets\Effects\DoubleScan\DoubleScanSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\DoubleScan\DoubleScan.cs" />
+    <Compile Include="Assets\Effects\Fans\DoubleScan\DoubleScanSettings.xaml.cs">
       <DependentUpon>DoubleScanSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\DoubleScan\DoubleScanSettingsModel.cs" />
-    <Compile Include="Assets\Effects\DoubleSpinner\DoubleSpinner.cs" />
-    <Compile Include="Assets\Effects\DoubleSpinner\DoubleSpinnerSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\DoubleScan\DoubleScanSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\DoubleSpinner\DoubleSpinner.cs" />
+    <Compile Include="Assets\Effects\Fans\DoubleSpinner\DoubleSpinnerSettings.xaml.cs">
       <DependentUpon>DoubleSpinnerSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\DoubleSpinner\DoubleSpinnerSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\DoubleSpinner\DoubleSpinnerSettingsModel.cs" />
     <Compile Include="Assets\Effects\EffectsEnums.cs" />
     <Compile Include="Assets\Effects\EffectSetting.cs" />
-    <Compile Include="Assets\Effects\FourPointSpinner\FourPointSpinner.cs" />
-    <Compile Include="Assets\Effects\FourPointSpinner\FourPointSpinnerSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\FourPointSpinner\FourPointSpinner.cs" />
+    <Compile Include="Assets\Effects\Fans\FourPointSpinner\FourPointSpinnerSettings.xaml.cs">
       <DependentUpon>FourPointSpinnerSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\FourPointSpinner\FourPointSpinnerSettingsModel.cs" />
-    <Compile Include="Assets\Effects\HueShift\HueShift.cs" />
-    <Compile Include="Assets\Effects\HueShift\HueShiftSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\FourPointSpinner\FourPointSpinnerSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\HueShift\HueShift.cs" />
+    <Compile Include="Assets\Effects\Fans\HueShift\HueShiftSettings.xaml.cs">
       <DependentUpon>HueShiftSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\HueShift\HueShiftSettingsModel.cs" />
-    <Compile Include="Assets\Effects\Rainbow\Rainbow.cs" />
-    <Compile Include="Assets\Effects\Rainbow\RainbowSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\HueShift\HueShiftSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\Rainbow\Rainbow.cs" />
+    <Compile Include="Assets\Effects\Fans\Rainbow\RainbowSettings.xaml.cs">
       <DependentUpon>RainbowSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\Rainbow\RainbowSettingsModel.cs" />
-    <Compile Include="Assets\Effects\SingleSpinner\SingleSpinner.cs" />
-    <Compile Include="Assets\Effects\SingleSpinner\SingleSpinnerSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\Rainbow\RainbowSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\Rgb\RgbSettings.xaml.cs">
+      <DependentUpon>RgbSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\Effects\Fans\Rgb\RgbSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\Rgb\Rgb.cs" />
+    <Compile Include="Assets\Effects\Stripes\Bpm\Bpm.cs" />
+    <Compile Include="Assets\Effects\Stripes\HueShift\HueShift.cs" />
+    <Compile Include="Assets\Effects\Stripes\Rainbow\Rainbow.cs" />
+    <Compile Include="Assets\Effects\Stripes\Rainbow\RainbowSettings.xaml.cs">
+      <DependentUpon>RainbowSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\Effects\Stripes\Rainbow\RainbowSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Stripes\Rgb\Rgb.cs" />
+    <Compile Include="Assets\Effects\Stripes\SingleColorPulse\SingleColorPulse.cs" />
+    <Compile Include="Assets\Effects\Stripes\SingleColorPulse\SingleColorPulseSettings.xaml.cs">
+      <DependentUpon>SingleColorPulseSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\Effects\Stripes\SingleColorPulse\SingleColorPulseSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Stripes\SingleColor\SingleColor.cs" />
+    <Compile Include="Assets\Effects\Stripes\SingleColor\SingleColorSettings.xaml.cs">
+      <DependentUpon>SingleColorSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\Effects\Stripes\SingleColor\SingleColorSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\SingleSpinner\SingleSpinner.cs" />
+    <Compile Include="Assets\Effects\Fans\SingleSpinner\SingleSpinnerSettings.xaml.cs">
       <DependentUpon>SingleSpinnerSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\SingleSpinner\SingleSpinnerSettingsModel.cs" />
-    <Compile Include="Assets\Effects\SplitQuarters\SplitQuarters.cs" />
-    <Compile Include="Assets\Effects\SplitQuarters\SplitQuartersSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\SingleSpinner\SingleSpinnerSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitQuarters\SplitQuarters.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitQuarters\SplitQuartersSettings.xaml.cs">
       <DependentUpon>SplitQuartersSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\SplitQuarters\SplitQuartersSettingsModel.cs" />
-    <Compile Include="Assets\Effects\SplitSides\SplitSides.cs" />
-    <Compile Include="Assets\Effects\SplitSides\SplitSidesPulseValues.cs" />
-    <Compile Include="Assets\Effects\SplitSides\SplitSidesSettings.xaml.cs">
+    <Compile Include="Assets\Effects\Fans\SplitQuarters\SplitQuartersSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitSides\SplitSides.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitSides\SplitSidesPulseValues.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitSides\SplitSidesSettings.xaml.cs">
       <DependentUpon>SplitSidesSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Assets\Effects\SplitSides\SplitSidesSettingsModel.cs" />
+    <Compile Include="Assets\Effects\Fans\SplitSides\SplitSidesSettingsModel.cs" />
     <Compile Include="Assets\Effects\IEffect.cs" />
     <Compile Include="Assets\LedDevice.cs" />
     <Compile Include="Assets\Settings.cs" />
@@ -152,39 +193,55 @@
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Page Include="Assets\Effects\Bpm\BpmSettings.xaml">
+    <Page Include="Assets\Effects\Fans\Bpm\BpmSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\DoubleScan\DoubleScanSettings.xaml">
+    <Page Include="Assets\Effects\Fans\DoubleScan\DoubleScanSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\DoubleSpinner\DoubleSpinnerSettings.xaml">
+    <Page Include="Assets\Effects\Fans\DoubleSpinner\DoubleSpinnerSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\FourPointSpinner\FourPointSpinnerSettings.xaml">
+    <Page Include="Assets\Effects\Fans\FourPointSpinner\FourPointSpinnerSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\HueShift\HueShiftSettings.xaml">
+    <Page Include="Assets\Effects\Fans\HueShift\HueShiftSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\Rainbow\RainbowSettings.xaml">
+    <Page Include="Assets\Effects\Fans\Rainbow\RainbowSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\SingleSpinner\SingleSpinnerSettings.xaml">
+    <Page Include="Assets\Effects\Fans\Rgb\RgbSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\SplitQuarters\SplitQuartersSettings.xaml">
+    <Page Include="Assets\Effects\Stripes\Rainbow\RainbowSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\Effects\Stripes\SingleColorPulse\SingleColorPulseSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\Effects\Stripes\SingleColor\SingleColorSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\Effects\Fans\SingleSpinner\SingleSpinnerSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Effects\SplitSides\SplitSidesSettings.xaml">
+    <Page Include="Assets\Effects\Fans\SplitQuarters\SplitQuartersSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\Effects\Fans\SplitSides\SplitSidesSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -253,8 +253,8 @@ namespace LedControllerEngine.ViewModel
             EffectMode = TransferMode.Live;
 
             var allEffects = GetAvailableEffects();
-            FanEffects = allEffects.Where(e => (e.Compatiblity & DeviceType.Fan) == DeviceType.Fan);
-            StripeEffects = allEffects.Where(e => (e.Compatiblity & DeviceType.Stripe) == DeviceType.Stripe);
+            FanEffects = allEffects.Where(e => e.Compatiblity == DeviceType.Fan);
+            StripeEffects = allEffects.Where(e => e.Compatiblity == DeviceType.Stripe);
 
             // event handlers
             FanToggleCommand = new RelayCommand<LedDevice>(
@@ -392,7 +392,7 @@ namespace LedControllerEngine.ViewModel
                 from t in assembly.GetTypes()
                 where t.GetInterfaces().Contains(typeof(IEffect)) && t.GetConstructor(Type.EmptyTypes) != null
                 select Activator.CreateInstance(t) as IEffect)
-                    .OrderBy(e => e.ModeNumber);
+                    .OrderBy(e => e.Name);
         }
 
         /// <summary>
@@ -453,11 +453,19 @@ namespace LedControllerEngine.ViewModel
         {
             EnsureInteropInitialized();
 
+            // fans
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
-            _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+            if (SelectedStripeEffect != null || fans.Count() > 0)
+            {
+                _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+            }
 
+            // stripes
             var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
-            _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
+            if (SelectedStripeEffect != null || stripes.Count() > 0)
+            {
+                _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
+            }
 
             // save current effect settings
             AddEffectToSettingsStore(SelectedFanEffect);

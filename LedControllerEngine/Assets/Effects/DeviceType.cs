@@ -2,7 +2,6 @@
 
 namespace LedControllerEngine.Assets
 {
-    [Flags]
     public enum DeviceType
     {
         Fan = 0,

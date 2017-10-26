@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,8 @@ namespace LedControllerEngine.Assets.Effects
         public int? FanPhaseOffset { get; set; }
         public int? SidePhaseOffset { get; set; }
         public KeyValuePair<SplitSidesPulseValues, string> Pulse { get; set; }
+
+        [JsonIgnore]
         public IEnumerable<KeyValuePair<SplitSidesPulseValues, string>> PulseOptions { get; internal set; }
         public int? PulseSpeed { get; set; }
 
