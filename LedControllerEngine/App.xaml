@@ -8,7 +8,7 @@
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type Button}" x:Key="FanImageButtonStyle">
+            <Style TargetType="{x:Type Button}" x:Key="FlatImageButtonStyle">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">

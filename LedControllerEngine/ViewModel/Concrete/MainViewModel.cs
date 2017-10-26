@@ -39,64 +39,6 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
-        private IEnumerable<IEffect> _effects;
-        public IEnumerable<IEffect> Effects
-        {
-            get
-            {
-                return _effects;
-            }
-            internal set
-            {
-                _effects = value;
-                RaisePropertyChanged(() => Effects);
-            }
-        }
-
-        private IEffect _selectedEffect;
-        public IEffect SelectedEffect
-        {
-            get
-            {
-                return _selectedEffect;
-            }
-            set
-            {
-                _selectedEffect = value;
-                RaisePropertyChanged(() => SelectedEffect);
-
-                LoadEffectSettingsEditor(value);
-            }
-        }
-
-        private ObservableCollection<LedDevice> _fans;
-        public ObservableCollection<LedDevice> Fans
-        {
-            get
-            {
-                return _fans;
-            }
-            set
-            {
-                _fans = value;
-                RaisePropertyChanged(() => Fans);
-            }
-        }
-
-        private ObservableCollection<LedDevice> _stripes;
-        public ObservableCollection<LedDevice> Stripes
-        {
-            get
-            {
-                return _stripes;
-            }
-            set
-            {
-                _stripes = value;
-                RaisePropertyChanged(() => Stripes);
-            }
-        }
-
         private TransferMode _effectMode;
         public TransferMode EffectMode
         {
@@ -108,20 +50,6 @@ namespace LedControllerEngine.ViewModel
             {
                 _effectMode = value;
                 RaisePropertyChanged(() => EffectMode);
-            }
-        }
-
-        private UserControl _configurationUI;
-        public UserControl ConfigurationUI
-        {
-            get
-            {
-                return _configurationUI;
-            }
-            set
-            {
-                _configurationUI = value;
-                RaisePropertyChanged(() => ConfigurationUI);
             }
         }
 
@@ -158,6 +86,130 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
+        #region fans
+
+        private IEnumerable<IEffect> _fanEffects;
+        public IEnumerable<IEffect> FanEffects
+        {
+            get
+            {
+                return _fanEffects;
+            }
+            internal set
+            {
+                _fanEffects = value;
+                RaisePropertyChanged(() => FanEffects);
+            }
+        }
+        
+        private IEffect _selectedFanEffect;
+        public IEffect SelectedFanEffect
+        {
+            get
+            {
+                return _selectedFanEffect;
+            }
+            set
+            {
+                _selectedFanEffect = value;
+                RaisePropertyChanged(() => SelectedFanEffect);
+
+                LoadFanEffectSettingsEditor(value);
+            }
+        }
+
+        private ObservableCollection<LedDevice> _fans;
+        public ObservableCollection<LedDevice> Fans
+        {
+            get
+            {
+                return _fans;
+            }
+            set
+            {
+                _fans = value;
+                RaisePropertyChanged(() => Fans);
+            }
+        }
+
+        private UserControl _fanConfigurationUI;
+        public UserControl FanConfigurationUI
+        {
+            get
+            {
+                return _fanConfigurationUI;
+            }
+            set
+            {
+                _fanConfigurationUI = value;
+                RaisePropertyChanged(() => FanConfigurationUI);
+            }
+        }
+
+        #endregion
+
+        #region stripes
+
+        private IEnumerable<IEffect> _strpieEffects;
+        public IEnumerable<IEffect> StripeEffects
+        {
+            get
+            {
+                return _strpieEffects;
+            }
+            internal set
+            {
+                _strpieEffects = value;
+                RaisePropertyChanged(() => StripeEffects);
+            }
+        }
+
+        private IEffect _selectedStripeEffect;
+        public IEffect SelectedStripeEffect
+        {
+            get
+            {
+                return _selectedStripeEffect;
+            }
+            set
+            {
+                _selectedStripeEffect = value;
+                RaisePropertyChanged(() => SelectedStripeEffect);
+
+                LoadStripeEffectSettingsEditor(value);
+            }
+        }
+
+        private ObservableCollection<LedDevice> _stripes;
+        public ObservableCollection<LedDevice> Stripes
+        {
+            get
+            {
+                return _stripes;
+            }
+            set
+            {
+                _stripes = value;
+                RaisePropertyChanged(() => Stripes);
+            }
+        }
+
+        private UserControl _stripeConfigurationUI;
+        public UserControl StripeConfigurationUI
+        {
+            get
+            {
+                return _stripeConfigurationUI;
+            }
+            set
+            {
+                _stripeConfigurationUI = value;
+                RaisePropertyChanged(() => StripeConfigurationUI);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region commands
@@ -180,10 +232,13 @@ namespace LedControllerEngine.ViewModel
             ApplicationSettings.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             Title = GetAssemblyTitle();
-            Effects = GetAvailableEffects();
             Fans = GetAvailableFans();
             Stripes = GetAvailableStripes();
             EffectMode = TransferMode.Live;
+
+            var allEffects = GetAvailableEffects();
+            FanEffects = allEffects.Where(e => (e.Compatiblity & DeviceType.Fan) == DeviceType.Fan);
+            StripeEffects = allEffects.Where(e => (e.Compatiblity & DeviceType.Stripe) == DeviceType.Stripe);
 
             // event handlers
             FanToggleCommand = new RelayCommand<LedDevice>(
@@ -361,9 +416,10 @@ namespace LedControllerEngine.ViewModel
         /// </returns>
         private bool CanSendSettings()
         {
-            return Fans.Where(f => f.IsSelected).Count() > 0
-                || Stripes.Where(s => s.IsSelected).Count() > 0
-                && SelectedEffect != null;
+            return (Fans.Where(f => f.IsSelected).Count() > 0
+                && SelectedFanEffect != null)
+                || (Stripes.Where(s => s.IsSelected).Count() > 0
+                && SelectedStripeEffect != null);
         }
 
         /// <summary>
@@ -374,34 +430,68 @@ namespace LedControllerEngine.ViewModel
             EnsureInteropInitialized();
 
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
+            _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+
             var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
-            _interop.SendSettings(SelectedEffect.GetSettingsValues(), fans.Concat(stripes), EffectMode);
+            _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
 
             // save current effect settings
-            var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => SelectedEffect.Id == e.Id);
-            if (existingEffect != null)
-            {
-                ApplicationSettings.Effects.Remove(existingEffect);
-            }
-            ApplicationSettings.Effects.Add(SelectedEffect);
+            AddEffectToSettingsStore(SelectedFanEffect);
+            AddEffectToSettingsStore(SelectedStripeEffect);
             ApplicationSettings.Save(_settingsPath);
         }
 
         /// <summary>
-        /// Loads the effect settings editor.
+        /// Adds the effect to settings store.
         /// </summary>
         /// <param name="effect">The effect.</param>
-        private void LoadEffectSettingsEditor(IEffect effect)
+        private void AddEffectToSettingsStore(IEffect effect)
+        {
+            if (effect == null)
+            {
+                return;
+            }
+
+            var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => effect.Id == e.Id);
+            if (existingEffect != null)
+            {
+                ApplicationSettings.Effects.Remove(existingEffect);
+            }
+            ApplicationSettings.Effects.Add(effect);
+        }
+
+        /// <summary>
+        /// Loads the Fan effect settings editor.
+        /// </summary>
+        /// <param name="effect">The effect.</param>
+        private void LoadFanEffectSettingsEditor(IEffect effect)
         {
             var control = Activator.CreateInstance(effect.SettingsControl) as UserControl;
-            var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => SelectedEffect.Id == e.Id);
+            var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => SelectedFanEffect.Id == e.Id);
             if (existingEffect != null)
             {
                 effect.SettingsModel = existingEffect.SettingsModel;
             }
 
             control.DataContext = effect.SettingsModel;
-            ConfigurationUI = control;
+            FanConfigurationUI = control;
+        }
+
+        /// <summary>
+        /// Loads the Stripe effect settings editor.
+        /// </summary>
+        /// <param name="effect">The effect.</param>
+        private void LoadStripeEffectSettingsEditor(IEffect effect)
+        {
+            var control = Activator.CreateInstance(effect.SettingsControl) as UserControl;
+            var existingEffect = ApplicationSettings.Effects.FirstOrDefault(e => SelectedStripeEffect.Id == e.Id);
+            if (existingEffect != null)
+            {
+                effect.SettingsModel = existingEffect.SettingsModel;
+            }
+
+            control.DataContext = effect.SettingsModel;
+            StripeConfigurationUI = control;
         }
 
         /// <summary>

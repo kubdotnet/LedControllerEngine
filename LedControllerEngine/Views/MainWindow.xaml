@@ -1,5 +1,5 @@
-﻿<Controls:MetroWindow xmlns:Views="clr-namespace:LedControllerEngine.Views" 
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Class="LedControllerEngine.MainWindow"
+﻿<mahControls:MetroWindow xmlns:Views="clr-namespace:LedControllerEngine.Views" 
+        x:Class="LedControllerEngine.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,24 +10,23 @@
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
         BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2"
-        Title="Led Controller Engine" Height="450" Width="720"
-        MinHeight="450" MinWidth="720">
+        Title="Led Controller Engine" Height="550" Width="780"
+        MinHeight="550" MinWidth="780">
     <Window.Resources>
         <DataTemplate x:Key="EffectTemplate">
             <Grid>
                 <TextBlock Text="{Binding Name}" Padding="2, 4" />
             </Grid>
         </DataTemplate>
-        <BitmapImage x:Key="FanIcon" UriSource="/Resources/FanIcon.png" />
     </Window.Resources>
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+    <mahControls:MetroWindow.RightWindowCommands>
+        <mahControls:WindowCommands>
             <Button Content="{iconPacks:PackIconMaterial Kind=FolderUpload}" ToolTip="Bring Stored Settings to Live" Command="{Binding LoadMemoryToLiveCommand}" />
             <Button Content="{iconPacks:PackIconMaterial Kind=FolderDownload}" ToolTip="Store Live Settings into Memory" Command="{Binding SaveLiveToMemoryCommand}" />
             <Button Content="{iconPacks:PackIconMaterial Kind=RadioTower}" ToolTip="Transfer Stage to Live" Command="{Binding TransferStageToLiveCommand}" />
             <Button Content="{iconPacks:PackIconMaterial Kind=Settings}" ToolTip="Settings" Command="{Binding SettingsToggleCommand}" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        </mahControls:WindowCommands>
+    </mahControls:MetroWindow.RightWindowCommands>
     <mahControls:MetroWindow.Flyouts>
         <mahControls:FlyoutsControl>
             <mahControls:Flyout IsOpen="{Binding IsSettingsOpen, Mode=TwoWay}" Header="Settings" Position="Right" Width="Auto" HorizontalAlignment="Stretch" Height="Auto">
@@ -39,92 +38,131 @@
     </mahControls:MetroWindow.Flyouts>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Effect" Margin="10,0"/>
-        <ListBox Margin="10" Grid.Row="1" ItemsSource="{Binding Effects}" SelectedItem="{Binding SelectedEffect}" ItemTemplate="{StaticResource EffectTemplate}" />
-        <ContentControl Content="{Binding ConfigurationUI}" Grid.Column="1" Margin="10" Grid.Row="1" />
+        <mahControls:MetroTabControl >
+            <mahControls:MetroAnimatedTabControl>
+                <TabItem Header="Fans">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Effect" Margin="10,0"/>
+                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc">
+                            <ListBox Margin="10" ItemsSource="{Binding FanEffects}" SelectedItem="{Binding SelectedFanEffect}" ItemTemplate="{StaticResource EffectTemplate}" />
+                        </Border>
+                        <ContentControl Content="{Binding FanConfigurationUI}" Grid.Column="1" Margin="10" Grid.Row="1" ScrollViewer.CanContentScroll="True" />
 
-        <Grid Grid.Row="4" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="FAN(s)" Margin="10,0" VerticalAlignment="Center" />
-            <DockPanel Grid.Column="1" Margin="5">
-                <ItemsControl x:Name="FansItemsControl" ItemsSource="{Binding Fans}" DockPanel.Dock="Top">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource FanImageButtonStyle}" Command="{Binding ElementName=FansItemsControl, Path=DataContext.FanToggleCommand}" CommandParameter="{Binding}" Cursor="Hand">
-                                <Image Source="/LedControllerEngine;component/Resources/FanIcon.png" ToolTip="{Binding Description}" Width="25" Height="25" RenderOptions.BitmapScalingMode="Fant">
-                                    <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="True">
-                                                    <Setter Property="Opacity" Value="1" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="False">
-                                                    <Setter Property="Opacity" Value="0.5" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </DockPanel>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="FAN(s)" Margin="10,0" VerticalAlignment="Center" />
+                            <DockPanel Grid.Column="1" Margin="5" Width="Auto" HorizontalAlignment="Left">
+                                <ItemsControl x:Name="FansItemsControl" ItemsSource="{Binding Fans}" DockPanel.Dock="Top">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource FlatImageButtonStyle}" Command="{Binding ElementName=FansItemsControl, Path=DataContext.FanToggleCommand}" CommandParameter="{Binding}" Cursor="Hand">
+                                                <Image Source="/LedControllerEngine;component/Resources/FanIcon.png" ToolTip="{Binding Description}" Width="25" Height="25" RenderOptions.BitmapScalingMode="Fant">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="True">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.5" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DockPanel>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Stripes">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Effect" Margin="10,0"/>
+                        <Border Grid.Row="1" BorderThickness="0 0 2 0" BorderBrush="#cccccc">
+                            <ListBox Margin="10" ItemsSource="{Binding StripeEffects}" SelectedItem="{Binding SelectedStripeEffect}" ItemTemplate="{StaticResource EffectTemplate}" />
+                        </Border>
+                        <ContentControl Content="{Binding StripeConfigurationUI}" Grid.Column="1" Margin="10" Grid.Row="1" />
 
-            <TextBlock Text="Stripe(s)" Margin="10,0" VerticalAlignment="Center" Grid.Row="1" />
-            <DockPanel Grid.Column="1" Margin="5" Grid.Row="1">
-                <ItemsControl x:Name="StripesItemsControl" ItemsSource="{Binding Stripes}" DockPanel.Dock="Top">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource FanImageButtonStyle}" Command="{Binding ElementName=StripesItemsControl, Path=DataContext.StripeToggleCommand}" CommandParameter="{Binding}" Cursor="Hand">
-                                <Image Source="/LedControllerEngine;component/Resources/StripeIcon.png" ToolTip="{Binding Description}" Width="25" Height="25" RenderOptions.BitmapScalingMode="Fant">
-                                    <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="True">
-                                                    <Setter Property="Opacity" Value="1" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="False">
-                                                    <Setter Property="Opacity" Value="0.5" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </DockPanel>
-            <RadioButton Content="Live" Grid.Column="2" Margin="0,0,170,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Live}" HorizontalAlignment="Right" Width="45" Grid.Row="1" />
-            <RadioButton Content="Stage" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Stage}" Grid.Row="1" />
-            <Button Command="{Binding SendEffectCommand}" Content="Apply" Grid.Column="2" Margin="0,5,10,5" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5" />
-        </Grid>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Stripe(s)" Margin="10,0" VerticalAlignment="Center" />
+                            <DockPanel Grid.Column="1" Margin="5" Width="Auto" HorizontalAlignment="Left">
+                                <ItemsControl x:Name="StripesItemsControl" ItemsSource="{Binding Stripes}" DockPanel.Dock="Top">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource FlatImageButtonStyle}" Command="{Binding ElementName=StripesItemsControl, Path=DataContext.StripeToggleCommand}" CommandParameter="{Binding}" Cursor="Hand">
+                                                <Image Source="/LedControllerEngine;component/Resources/SmdIcon.png" ToolTip="{Binding Description}" Width="25" Height="25" RenderOptions.BitmapScalingMode="Fant">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="True">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Path=IsSelected, NotifyOnTargetUpdated=True}" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.5" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DockPanel>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </mahControls:MetroAnimatedTabControl>
+        </mahControls:MetroTabControl>
+        <RadioButton Content="Live" Grid.Column="2" Margin="0,0,170,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Live}" HorizontalAlignment="Right" Width="45" Grid.Row="1" />
+        <RadioButton Content="Stage" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalContentAlignment="Center" IsChecked="{Binding EffectMode, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Stage}" Grid.Row="1" />
+        <Button Command="{Binding SendEffectCommand}" Content="Apply" Grid.Column="2" Margin="0,5,10,5" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5" />
     </Grid>
-</Controls:MetroWindow>
+</mahControls:MetroWindow>

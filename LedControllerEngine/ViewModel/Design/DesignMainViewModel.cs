@@ -16,7 +16,7 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
 
-        public IEnumerable<IEffect> Effects
+        public IEnumerable<IEffect> FanEffects
         {
             get => new List<IEffect>() {
                 new HueShift(),
@@ -26,7 +26,7 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
 
-        public IEffect SelectedEffect { get; set; }
+        public IEffect SelectedFanEffect { get; set; }
 
         public ObservableCollection<LedDevice> Fans
         {
@@ -61,7 +61,7 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
 
-        public UserControl ConfigurationUI
+        public UserControl FanConfigurationUI
         {
             get => new HueShiftSettings();
             set { }
@@ -78,5 +78,21 @@ namespace LedControllerEngine.ViewModel
         public ICommand TransferStageToLiveCommand { get; set; }
         public ICommand LoadMemoryToLiveCommand { get; set; }
         public ICommand SaveLiveToMemoryCommand { get; set; }
+
+        public IEnumerable<IEffect> StripeEffects
+        {
+            get => new List<IEffect>() {
+                new HueShift(),
+                new Bpm()
+            };
+            set { }
+        }
+
+        public IEffect SelectedStripeEffect { get; set; }
+        public UserControl StripeConfigurationUI
+        {
+            get => new BpmSettings();
+            set { }
+        }
     }
 }
