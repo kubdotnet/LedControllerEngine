@@ -288,24 +288,21 @@ namespace LedControllerEngine.ViewModel
             TransferStageToLiveCommand = new RelayCommand(
                 () => {
                     _logging.Info("Sending command <");
-                    EnsureInteropInitialized();
-                    _interop.SendCommand("<");
+                    SendCommandToArduino("<");
                 }
             );
 
             SaveLiveToMemoryCommand = new RelayCommand(
                 () => {
                     _logging.Info("Sending command !");
-                    EnsureInteropInitialized();
-                    _interop.SendCommand("!");
+                    SendCommandToArduino("!");
                 }
             );
 
             LoadMemoryToLiveCommand = new RelayCommand(
                 () => {
                     _logging.Info("Sending command $");
-                    EnsureInteropInitialized();
-                    _interop.SendCommand("$");
+                    SendCommandToArduino("$");
                 }
             );
         }
@@ -457,20 +454,41 @@ namespace LedControllerEngine.ViewModel
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
             if (SelectedFanEffect != null && fans.Count() > 0)
             {
-                _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+                try
+                {
+                    _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+                }
+                catch (Exception ex)
+                {
+                    _logging.Fatal(ex);
+                }
             }
 
             // stripes
             var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
             if (SelectedStripeEffect != null && stripes.Count() > 0)
             {
-                _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
+                try
+                {
+                    _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
+                }
+                catch (Exception ex)
+                {
+                    _logging.Fatal(ex);
+                }
             }
 
-            // save current effect settings
-            AddEffectToSettingsStore(SelectedFanEffect);
-            AddEffectToSettingsStore(SelectedStripeEffect);
-            ApplicationSettings.Save(_settingsPath);
+            try
+            {
+                // save current effect settings
+                AddEffectToSettingsStore(SelectedFanEffect);
+                AddEffectToSettingsStore(SelectedStripeEffect);
+                SaveSettings();
+            }
+            catch (Exception ex)
+            {
+                _logging.Fatal(ex);
+            }
         }
 
         /// <summary>
@@ -531,15 +549,22 @@ namespace LedControllerEngine.ViewModel
         /// </summary>
         private void SaveSettings()
         {
-            var fileName = System.IO.Path.GetFileName(_settingsPath);
-            var directory = System.IO.Path.GetDirectoryName(_settingsPath.Remove(_settingsPath.Length - fileName.Length));
-
-            if (!System.IO.Directory.Exists(directory))
+            try
             {
-                System.IO.Directory.CreateDirectory(_settingsPath);
-            }
+                var fileName = System.IO.Path.GetFileName(_settingsPath);
+                var directory = System.IO.Path.GetDirectoryName(_settingsPath.Remove(_settingsPath.Length - fileName.Length));
 
-            ApplicationSettings.Save(_settingsPath);
+                if (!System.IO.Directory.Exists(directory))
+                {
+                    System.IO.Directory.CreateDirectory(_settingsPath);
+                }
+
+                ApplicationSettings.Save(_settingsPath);
+            }
+            catch (Exception ex)
+            {
+                _logging.Fatal(ex);
+            }
         }
 
         /// <summary>
@@ -551,6 +576,22 @@ namespace LedControllerEngine.ViewModel
             {
                 _logging.Info("Interop not initialized, initializing now");
                 _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
+            }
+        }
+
+        /// <summary>
+        /// Sends the command to arduino.
+        /// </summary>
+        private void SendCommandToArduino(string command)
+        {
+            try
+            {
+                EnsureInteropInitialized();
+                _interop.SendCommand(command);
+            }
+            catch (Exception ex)
+            {
+                _logging.Fatal(ex);
             }
         }
     }
