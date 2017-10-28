@@ -455,14 +455,14 @@ namespace LedControllerEngine.ViewModel
 
             // fans
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
-            if (SelectedStripeEffect != null || fans.Count() > 0)
+            if (SelectedFanEffect != null && fans.Count() > 0)
             {
                 _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
             }
 
             // stripes
             var stripes = Stripes.Where(s => s.IsSelected).Select(s => s.Index);
-            if (SelectedStripeEffect != null || stripes.Count() > 0)
+            if (SelectedStripeEffect != null && stripes.Count() > 0)
             {
                 _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
             }
