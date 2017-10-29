@@ -45,6 +45,7 @@ namespace LedControllerEngine.Arduino
                 serialPortChannel.Write(command);
             }
             serialPortChannel.WriteLine("");
+            CloseSerialPort();
         }
 
         /// <summary>
@@ -56,13 +57,28 @@ namespace LedControllerEngine.Arduino
             EnsureSerialPortOpened();
             serialPortChannel.Write(command);
             serialPortChannel.WriteLine("");
+            CloseSerialPort();
         }
 
+        /// <summary>
+        /// Ensures the serial port opened.
+        /// </summary>
         private void EnsureSerialPortOpened()
         {
             if (!serialPortChannel.IsOpen)
             {
                 serialPortChannel.Open();
+            }
+        }
+
+        /// <summary>
+        /// Closes the serial port.
+        /// </summary>
+        private void CloseSerialPort()
+        {
+            if (serialPortChannel.IsOpen)
+            {
+                serialPortChannel.Close();
             }
         }
 
@@ -96,11 +112,7 @@ namespace LedControllerEngine.Arduino
         /// </summary>
         public void Dispose()
         {
-            if (serialPortChannel.IsOpen)
-            {
-                serialPortChannel.Close();
-            }
-
+            CloseSerialPort();
             serialPortChannel.Dispose();
         }
     }
