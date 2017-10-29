@@ -11,6 +11,12 @@ Test are missing, they must be added soon :).
 
 ## Changelog
 
+2017-10-29
+* Fixed issue serial port keeps open even if no longer needed
+
+2017-10-28
+* Fixed application crash if settings file creation fails.
+
 2017-10-23
 * Added stripes
 * Add Transfer Stage to Live feature
