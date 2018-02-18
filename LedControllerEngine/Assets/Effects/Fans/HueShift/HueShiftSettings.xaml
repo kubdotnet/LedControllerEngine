@@ -13,6 +13,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -31,9 +32,11 @@
         </Border>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="HUE Offset" Grid.Row="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding HueOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Phase Offset" Grid.Row="3"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding PhaseOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Speed (bpm)" Grid.Row="4"/>
-        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding Speed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Starting Saturation" Grid.Row="3"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding StartingSaturation}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Phase Offset" Grid.Row="4"/>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding PhaseOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Speed (bpm)" Grid.Row="5"/>
+        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding Speed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
     </Grid>
 </UserControl>
