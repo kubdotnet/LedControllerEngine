@@ -179,6 +179,7 @@
     <Compile Include="Assets\Effects\Fans\SplitSides\SplitSidesSettingsModel.cs" />
     <Compile Include="Assets\Effects\IEffect.cs" />
     <Compile Include="Assets\LedDevice.cs" />
+    <Compile Include="Assets\SelectablePort.cs" />
     <Compile Include="Assets\Settings.cs" />
     <Compile Include="Converters\EffectsSettingsConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />

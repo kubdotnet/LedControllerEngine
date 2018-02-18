@@ -12,7 +12,6 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,13 +19,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Margin="10,0,10,0" TextWrapping="Wrap" Text="Communication" Grid.ColumnSpan="2" Style="{StaticResource BlockTitle}" VerticalAlignment="Center"/>
-        <TextBlock Margin="10,0" Grid.Row="1" TextWrapping="Wrap" Text="Port" VerticalAlignment="Center"/>
-        <ComboBox Grid.Column="1" Margin="10,5" Grid.Row="1" ItemsSource="{Binding PortList}" SelectedItem="{Binding Port}"/>
-        <TextBlock Margin="10,0" Grid.Row="2" TextWrapping="Wrap" Text="Speed" VerticalAlignment="Center"/>
-        <ComboBox Grid.Column="1" Margin="10,5" Grid.Row="2" ItemsSource="{Binding RateList}" SelectedItem="{Binding Rate}"/>
-        <TextBlock Margin="10,0" Grid.Row="3" TextWrapping="Wrap" Text="Number of FAN(s)" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" Margin="10,5" Grid.Row="3" Text="{Binding FansCount, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock Margin="10,0" Grid.Row="4" TextWrapping="Wrap" Text="Number of Stripe(s)" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" Margin="10,5" Grid.Row="4" Text="{Binding StripesCount, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Margin="10,0" Grid.Row="1" TextWrapping="Wrap" Text="Speed" VerticalAlignment="Center"/>
+        <ComboBox Grid.Column="1" Margin="10,5" Grid.Row="1" ItemsSource="{Binding RateList}" SelectedItem="{Binding Rate}"/>
+        <TextBlock Margin="10,0" Grid.Row="2" TextWrapping="Wrap" Text="Number of FAN(s)" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="1" Margin="10,5" Grid.Row="2" Text="{Binding FansCount, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Margin="10,0" Grid.Row="3" TextWrapping="Wrap" Text="Number of Stripe(s)" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="1" Margin="10,5" Grid.Row="3" Text="{Binding StripesCount, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

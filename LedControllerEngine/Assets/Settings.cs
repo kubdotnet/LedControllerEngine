@@ -10,7 +10,6 @@ namespace LedControllerEngine.Assets
     {
         private string _port;
         [JsonProperty("port")]
-        [Obsolete("Use Ports instead")]
         private string Port
         {
             set
@@ -19,9 +18,9 @@ namespace LedControllerEngine.Assets
             }
         }
 
-        private IEnumerable<string> _ports;
+        private List<string> _ports;
         [JsonProperty("ports")]
-        public IEnumerable<string> Ports
+        public List<string> Ports
         {
             get
             {
@@ -33,9 +32,6 @@ namespace LedControllerEngine.Assets
                 RaisePropertyChanged(() => Ports);
             }
         }
-
-        [JsonIgnore]
-        public IEnumerable<string> PortList { get; set; }
 
         private int _rate;
         [JsonProperty("rate")]
@@ -112,8 +108,7 @@ namespace LedControllerEngine.Assets
         {
             var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(file));
 
-            // switch obsole property port to Ports to keep compatibility
-            if (!string.IsNullOrEmpty(settings._port) && settings.Ports == null)
+            if (!string.IsNullOrEmpty(settings._port) && (settings.Ports == null || settings.Ports.Count == 0))
             {
                 settings.Ports = new List<string>() { settings._port };
             }

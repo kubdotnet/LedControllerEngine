@@ -16,6 +16,18 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
 
+        public ObservableCollection<SelectablePort> Ports
+        {
+            get => new ObservableCollection<SelectablePort>(
+                Enumerable.Range(1, 3).Select(i => new SelectablePort()
+                {
+                    Address = $"COM{i}",
+                    IsSelected = (i % 2) == 0
+                })
+            );
+            set { }
+        }
+
         public IEnumerable<IEffect> FanEffects
         {
             get => new List<IEffect>() {
@@ -96,5 +108,6 @@ namespace LedControllerEngine.ViewModel
             set { }
         }
         public int SelectedStripesCount { get => 2; }
+        public ICommand PortToggleCommand { get; set; }
     }
 }

@@ -86,6 +86,20 @@ namespace LedControllerEngine.ViewModel
             }
         }
 
+        private ObservableCollection<SelectablePort> _ports;
+        public ObservableCollection<SelectablePort> Ports
+        {
+            get
+            {
+                return _ports;
+            }
+            set
+            {
+                _ports = value;
+                RaisePropertyChanged(() => Ports);
+            }
+        }
+
         #region fans
 
         private IEnumerable<IEffect> _fanEffects;
@@ -230,6 +244,7 @@ namespace LedControllerEngine.ViewModel
 
         #region commands
 
+        public ICommand PortToggleCommand { get; set; }
         public ICommand FanToggleCommand { get; set; }
         public ICommand StripeToggleCommand { get; set; }
         public ICommand SendEffectCommand { get; set; }
@@ -248,6 +263,7 @@ namespace LedControllerEngine.ViewModel
             ApplicationSettings.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             Title = GetAssemblyTitle();
+            Ports = GetAvailablePorts();
             Fans = GetAvailableFans();
             Stripes = GetAvailableStripes();
             EffectMode = TransferMode.Live;
@@ -257,6 +273,14 @@ namespace LedControllerEngine.ViewModel
             StripeEffects = allEffects.Where(e => e.Compatiblity == DeviceType.Stripe);
 
             // event handlers
+            PortToggleCommand = new RelayCommand<SelectablePort>(
+                port =>
+                {
+                    TogglePortSelection(port);
+                    DestroyInterops();
+                }
+            );
+
             FanToggleCommand = new RelayCommand<LedDevice>(
                fan =>
                {
@@ -311,17 +335,8 @@ namespace LedControllerEngine.ViewModel
         {
             switch (e.PropertyName)
             {
-                case "Port":
                 case "Rate":
-                    if (_interops != null)
-                    {
-                        foreach (var interop in _interops)
-                        {
-                            interop.Dispose();
-                        }
-
-                        _interops = null;
-                    }
+                    DestroyInterops();
                     break;
                 case "FansCount":
                     Fans = GetAvailableFans();
@@ -334,7 +349,6 @@ namespace LedControllerEngine.ViewModel
 
         private Settings GetApplicationSettings()
         {
-            var portList = System.IO.Ports.SerialPort.GetPortNames().ToList();
             var rateList = new List<int> { 4800, 9600, 19200, 38400, 57600, 115200, 230400 };
 
             if (System.IO.File.Exists(_settingsPath))
@@ -345,7 +359,6 @@ namespace LedControllerEngine.ViewModel
 
                     // load settings from file
                     var _settings = Settings.LoadFromFile(_settingsPath);
-                    _settings.PortList = portList;
                     _settings.RateList = rateList;
                     return _settings;
                 }
@@ -360,7 +373,6 @@ namespace LedControllerEngine.ViewModel
             IsSettingsOpen = true;
             return new Settings()
             {
-                PortList = portList,
                 Rate = 115200,
                 RateList = rateList,
                 FansCount = 6
@@ -397,6 +409,21 @@ namespace LedControllerEngine.ViewModel
         }
 
         /// <summary>
+        /// Gets the available ports.
+        /// </summary>
+        /// <returns></returns>
+        private ObservableCollection<SelectablePort> GetAvailablePorts()
+        {
+            var comPorts = System.IO.Ports.SerialPort.GetPortNames();
+            return new ObservableCollection<SelectablePort>(
+                comPorts.Select(p => new SelectablePort() {
+                    Address = p,
+                    IsSelected = ApplicationSettings.Ports.Contains(p)
+                })
+            );
+        }
+
+        /// <summary>
         /// Gets the available fans.
         /// </summary>
         /// <returns></returns>
@@ -412,6 +439,10 @@ namespace LedControllerEngine.ViewModel
             );
         }
 
+        /// <summary>
+        /// Gets the available stripes.
+        /// </summary>
+        /// <returns></returns>
         private ObservableCollection<LedDevice> GetAvailableStripes()
         {
             return new ObservableCollection<LedDevice>(
@@ -422,6 +453,28 @@ namespace LedControllerEngine.ViewModel
                     IsSelected = false
                 })
             );
+        }
+
+        /// <summary>
+        /// Toggles the port selection.
+        /// </summary>
+        /// <param name="port">The port.</param>
+        private void TogglePortSelection(SelectablePort port)
+        {
+            if (port.IsSelected)
+            {
+                if (!ApplicationSettings.Ports.Contains(port.Address))
+                {
+                    ApplicationSettings.Ports.Add(port.Address);
+                }
+            }
+            else
+            {
+                if (ApplicationSettings.Ports.Contains(port.Address))
+                {
+                    ApplicationSettings.Ports.Remove(port.Address);
+                }
+            }
         }
 
         /// <summary>
@@ -441,10 +494,11 @@ namespace LedControllerEngine.ViewModel
         /// </returns>
         private bool CanSendSettings()
         {
-            return (Fans.Where(f => f.IsSelected).Count() > 0
+            return (Ports.Where(p => p.IsSelected).Count() > 0
+                && (Fans.Where(f => f.IsSelected).Count() > 0
                 && SelectedFanEffect != null)
                 || (Stripes.Where(s => s.IsSelected).Count() > 0
-                && SelectedStripeEffect != null);
+                && SelectedStripeEffect != null));
         }
 
         /// <summary>
@@ -580,18 +634,36 @@ namespace LedControllerEngine.ViewModel
         }
 
         /// <summary>
+        /// Destroys the interops.
+        /// </summary>
+        private void DestroyInterops()
+        {
+            if (_interops != null)
+            {
+                foreach (var interop in _interops)
+                {
+                    interop.Dispose();
+                }
+            }
+
+            _interops = null;
+        }
+
+        /// <summary>
         /// Ensures the interop is initialized.
         /// </summary>
         private void EnsureInteropInitialized()
         {
             if (_interops == null)
             {
-                _logging.Info("no Interop initialized, initializing now");
-
+                _logging.Info("Interops not initialized, initialize them now");
+                // recreate interops
                 var newInterops = new List<Arduino.LedInterop>();
-                foreach (var port in ApplicationSettings.Ports)
+                var selectedPorts = Ports.Where(p => p.IsSelected);
+                foreach (var port in selectedPorts)
                 {
-                    newInterops.Add(new Arduino.LedInterop(port, ApplicationSettings.Rate));
+                    newInterops.Add(new Arduino.LedInterop(port.Address, ApplicationSettings.Rate));
+                    _logging.Info($"- {port} interop initialized");
                 }
 
                 _interops = newInterops;

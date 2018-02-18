@@ -17,7 +17,8 @@ namespace LedControllerEngine.ViewModel
         ICommand TransferStageToLiveCommand { get; set; }
         ICommand LoadMemoryToLiveCommand { get; set; }
         ICommand SaveLiveToMemoryCommand { get; set; }
-
+        ObservableCollection<SelectablePort> Ports{ get; set; }
+        ICommand PortToggleCommand { get; set; }
 
         #region fans
 

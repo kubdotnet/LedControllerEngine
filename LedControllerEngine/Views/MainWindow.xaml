@@ -40,8 +40,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <mahControls:MetroTabControl Padding="5">
+        <mahControls:MetroTabControl Padding="0">
             <mahControls:MetroAnimatedTabControl>
                 <TabItem Header="Fans">
                     <Grid>
@@ -160,6 +161,29 @@
             </mahControls:MetroAnimatedTabControl>
         </mahControls:MetroTabControl>
         <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="10" Text="Port(s)" VerticalAlignment="Center" />
+
+            <ListBox Grid.Column="1" ItemsSource="{Binding Ports}" x:Name="PortsItemsControl">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" VerticalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Command="{Binding ElementName=PortsItemsControl, Path=DataContext.PortToggleCommand}" CommandParameter="{Binding}" />
+                            <TextBlock Text="{Binding Address}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="250" />
