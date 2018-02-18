@@ -18,7 +18,7 @@ namespace LedControllerEngine.ViewModel
         #region fields
 
         ILogging _logging;
-        private Arduino.LedInterop _interop;
+        private IEnumerable<Arduino.LedInterop> _interops;
         private string _settingsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LedControllerEngine\settings.json");
 
         #endregion
@@ -313,10 +313,14 @@ namespace LedControllerEngine.ViewModel
             {
                 case "Port":
                 case "Rate":
-                    if (_interop != null)
+                    if (_interops != null)
                     {
-                        _interop.Dispose();
-                        _interop = null;
+                        foreach (var interop in _interops)
+                        {
+                            interop.Dispose();
+                        }
+
+                        _interops = null;
                     }
                     break;
                 case "FansCount":
@@ -454,9 +458,13 @@ namespace LedControllerEngine.ViewModel
             var fans = Fans.Where(f => f.IsSelected).Select(f => f.Index);
             if (SelectedFanEffect != null && fans.Count() > 0)
             {
+                var settingsValues = SelectedFanEffect.GetSettingsValues();
                 try
                 {
-                    _interop.SendSettings(SelectedFanEffect.GetSettingsValues(), fans, EffectMode);
+                    foreach (var interop in _interops)
+                    {
+                        interop.SendSettings(settingsValues, fans, EffectMode);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -470,7 +478,11 @@ namespace LedControllerEngine.ViewModel
             {
                 try
                 {
-                    _interop.SendSettings(SelectedStripeEffect.GetSettingsValues(), stripes, EffectMode);
+                    var settingsValues = SelectedStripeEffect.GetSettingsValues();
+                    foreach (var interop in _interops)
+                    {
+                        interop.SendSettings(settingsValues, fans, EffectMode);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -572,10 +584,17 @@ namespace LedControllerEngine.ViewModel
         /// </summary>
         private void EnsureInteropInitialized()
         {
-            if (_interop == null)
+            if (_interops == null)
             {
-                _logging.Info("Interop not initialized, initializing now");
-                _interop = new Arduino.LedInterop(ApplicationSettings.Port, ApplicationSettings.Rate);
+                _logging.Info("no Interop initialized, initializing now");
+
+                var newInterops = new List<Arduino.LedInterop>();
+                foreach (var port in ApplicationSettings.Ports)
+                {
+                    newInterops.Add(new Arduino.LedInterop(port, ApplicationSettings.Rate));
+                }
+
+                _interops = newInterops;
             }
         }
 
@@ -587,7 +606,11 @@ namespace LedControllerEngine.ViewModel
             try
             {
                 EnsureInteropInitialized();
-                _interop.SendCommand(command);
+
+                foreach (var interop in _interops)
+                {
+                    interop.SendCommand(command);
+                }
             }
             catch (Exception ex)
             {

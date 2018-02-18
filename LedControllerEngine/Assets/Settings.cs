@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,16 +10,27 @@ namespace LedControllerEngine.Assets
     {
         private string _port;
         [JsonProperty("port")]
-        public string Port
+        [Obsolete("Use Ports instead")]
+        private string Port
         {
-            get
-            {
-                return _port;
-            }
             set
             {
                 _port = value;
-                RaisePropertyChanged(() => Port);
+            }
+        }
+
+        private IEnumerable<string> _ports;
+        [JsonProperty("ports")]
+        public IEnumerable<string> Ports
+        {
+            get
+            {
+                return _ports;
+            }
+            set
+            {
+                _ports = value;
+                RaisePropertyChanged(() => Ports);
             }
         }
 
@@ -98,7 +110,15 @@ namespace LedControllerEngine.Assets
         /// <returns></returns>
         public static Settings LoadFromFile(string file)
         {
-            return JsonConvert.DeserializeObject<Settings>(File.ReadAllText(file));
+            var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(file));
+
+            // switch obsole property port to Ports to keep compatibility
+            if (!string.IsNullOrEmpty(settings._port) && settings.Ports == null)
+            {
+                settings.Ports = new List<string>() { settings._port };
+            }
+
+            return settings;
         }
 
         /// <summary>
