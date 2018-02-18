@@ -11,6 +11,10 @@ Test are missing, they must be added soon :).
 
 ## Changelog
 
+2018-02-18
+* Added support to send commands and effect's settings through more ports at once
+* Added new settings introduced by Charixfox on version 0.2.1.3
+
 2017-10-29
 * Fixed issue serial port keeps open even if no longer needed
 
