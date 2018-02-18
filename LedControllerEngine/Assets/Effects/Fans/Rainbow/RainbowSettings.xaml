@@ -10,6 +10,8 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,7 +22,12 @@
         <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding Sparkles}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="HUE Steps (set 21 for a full rainbow)" Grid.Row="1"/>
         <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding HueSteps}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Speed (bpm)" Grid.Row="2"/>
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding Speed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="HUE Offset" Grid.Row="2"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding HueOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Direction" Grid.Row="3"/>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center" GroupName="Direction" Content="Clockwise" IsChecked="{Binding Direction, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=Clockwise}"/>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="110,0,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center" GroupName="Direction" Content="Counterclockwise" IsChecked="{Binding Direction, Mode=TwoWay, Converter={StaticResource EnumConverter}, ConverterParameter=CounterClockwise}"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Rotation Speed (bpm)" Grid.Row="4"/>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding Speed}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
     </Grid>
 </UserControl>

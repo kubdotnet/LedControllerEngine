@@ -47,6 +47,8 @@ namespace LedControllerEngine.Assets.Effects
             settings.Add(new EffectSetting() { Code = 0, Value = ModeNumber }); // effect mode number
             settings.Add(new EffectSetting() { Code = 1, Value = _settingsModel.Sparkles.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 2, Value = _settingsModel.HueSteps.GetValueOrDefault() });
+            settings.Add(new EffectSetting() { Code = 3, Value = _settingsModel.HueOffset.GetValueOrDefault() });
+            settings.Add(new EffectSetting() { Code = 4, Value = (int)_settingsModel.Direction });
             settings.Add(new EffectSetting() { Code = 7, Value = _settingsModel.Speed.GetValueOrDefault() });
             return settings;
         }
