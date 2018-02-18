@@ -48,6 +48,7 @@ namespace LedControllerEngine.Assets.Effects.Stripes
             settings.Add(new EffectSetting() { Code = 1, Value = _settingsModel.StartingHue.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 2, Value = _settingsModel.EndingHue.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 3, Value = _settingsModel.HueOffset.GetValueOrDefault() });
+            settings.Add(new EffectSetting() { Code = 4, Value = _settingsModel.StartingSaturation.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 5, Value = _settingsModel.PhaseOffset.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 7, Value = _settingsModel.Speed.GetValueOrDefault() });
             return settings;
