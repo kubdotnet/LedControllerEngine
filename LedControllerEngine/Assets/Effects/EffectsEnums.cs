@@ -9,7 +9,8 @@
     public enum ColorMode
     {
         Hue = 0,
-        Rainbow = 1
+        Rainbow = 1,
+        Sparkler = 2
     }
 
     public enum Direction
