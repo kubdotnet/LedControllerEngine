@@ -50,6 +50,7 @@ namespace LedControllerEngine.Assets.Effects
             settings.Add(new EffectSetting() { Code = 3, Value = _settingsModel.HueOffset.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 4, Value = _settingsModel.StartingSaturation.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 5, Value = _settingsModel.PhaseOffset.GetValueOrDefault() });
+            settings.Add(new EffectSetting() { Code = 6, Value = _settingsModel.EndingSaturation.GetValueOrDefault() });
             settings.Add(new EffectSetting() { Code = 7, Value = _settingsModel.Speed.GetValueOrDefault() });
             return settings;
         }

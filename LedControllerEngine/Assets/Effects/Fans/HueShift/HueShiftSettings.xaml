@@ -32,8 +32,11 @@
         </Border>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="HUE Offset" Grid.Row="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding HueOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Starting Saturation" Grid.Row="3"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding StartingSaturation}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Saturation" Grid.Row="3"/>
+        <TextBlock Margin="10,12" TextWrapping="Wrap" VerticalAlignment="Center" Text="Start" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="30"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="41,5" TextWrapping="Wrap" Text="{Binding StartingSaturation}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBlock Margin="140,12,0,12" TextWrapping="Wrap" VerticalAlignment="Center" Text="End" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="30"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="171,5,0,5" TextWrapping="Wrap" Text="{Binding EndingSaturation}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="80"/>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Phase Offset" Grid.Row="4"/>
         <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Text="{Binding PhaseOffset}" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Speed (bpm)" Grid.Row="5"/>
